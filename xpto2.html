@@ -31,6 +31,7 @@
 
 		<!-- Wrapper -->
 			<div id="wrapper">
+
 			<form action="" method="post">
 
 				<!-- Intro -->
@@ -38,19 +39,17 @@
 						<div class="inner">
 							<h1>SIMES</h1>
 							<p>Checklist de inspecoes</p>
-							Tipo de inspecao: <input type="radio" id="rInterna" name="IntExt" value="i" selected style="display:inline"/> <label for="rInterna"  style="display:inline">Interna</label>
+							
+							Tipo de inspecao: 
+							<input type="radio" id="rInterna" name="IntExt" value="i" selected style="display:inline"/> <label for="rInterna"  style="display:inline">Interna</label>
 							<input type="radio" id="rExterna" name="IntExt" value="e" selected  style="display:inline"/> <label for="rExterna"  style="display:inline">Externa</label>
+							
 							<input type="text" id="tNum" name="num" placeholder="N. de Inspecao Externa"/>
 							<input type="date" id="date" name="data"/>
 							<input type="text" id="cod" name="cod" placeholder="Codigo"/>
-							<input type="text" id="unidade" name="unidade" placeholder="Unidade"/>
-							<input style="display:inline; width:100%" type="text" id="location" name="location" placeholder="Localizacao"/>
-							<span class="icon major fa-map-o"></span>
-<button onclick="getLocation()">Try It</button>
-							
-							<ul class="actions">
-								<li><a href="http://html5up.net/uploads/demos/hyperspace/#one" class="button scrolly">Learn more</a></li>
-							</ul>
+							<input type="text" id="unidade" name="unidade" placeholder="Unidade"/>							
+							<input type="hidden" id="location" name="location" placeholder="Localizacao"/>
+							<span  class="icon major fa-map-o" id="googlemaps" style="display: none; margin:0px; cursor:pointer;"><a id="googlemapslink" href=""/></span>
 						</div>
 					</section>
 
@@ -470,6 +469,8 @@ function getLocation() {
 
 function showPosition(position) {
     $('#location').val("Latitude:" + position.coords.latitude + " Longitude:" + position.coords.longitude);	
+	$('#googlemapslink').prop('href','https://www.google.pt/maps/@'+ position.coords.latitude +','+position.coords.longitude+',15z?hl=en');
+	$('#googlemaps').show(1000);
 	//https://www.google.pt/maps/@39.1233287,-9.3179406,12z?hl=en
 }
 
