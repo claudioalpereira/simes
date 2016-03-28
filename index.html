@@ -1984,11 +1984,21 @@
 					var client;
 					var API_TOKEN = 'gXbZxKDMLG8AAAAAAAAsennEIAnMTl4JN7EcXAoW6c-7o2e3yVSCcwK5hJ_nazZw';
 					
-					function saveToDropBox(content){
+					function saveToDropBox(content, append){
 						if( client = 'undefined' ) { client = new Dropbox.Client({ token: API_TOKEN }); }
 						if( !client.isAuthenticated() ) { client.authenticate(); }
 						
-						client.writeFile('inspecoes.csv', content, function (error) {console.log(error);});
+						if(append){
+							client.readFile(
+								'inspecoes.csv',
+								null,
+								function(error, data, stat, rangeInfo){
+										client._writeFileUsingPut('inspecoes.csv', data+'\r\n\r\n'+content, function (error) {console.log(error);});
+								});
+						} else {
+							client._writeFileUsingPut('inspecoes.csv', content, function (error) {console.log(error);});
+						}
+						//client._writeFileUsingPut('inspecoes.csv', content, function (error) {console.log(error);});
 					}
 					
 					
@@ -2002,40 +2012,41 @@
 
 		<script>
 		// JSON 2 csv
-		function JSON2CSV(objArray) {
+		function JSON2CSV(objArray, delimiter, includeHeaders, useQuotedString) {
 			var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
 
 			var str = '';
 			var line = '';
 
-		//    if ($("#labels").is(':checked')) {
+		    if (includeHeaders) {
 				var head = array[0];
-				if ($("#quote").is(':checked')) {
+				if (useQuotedString) {
 					for (var index in array[0]) {
 						var value = index + "";
-						line += '"' + value.replace(/"/g, '""') + '",';
+						line += '"' + value.replace(/"/g, '""') + '"'+delimiter;
 					}
 				} else {
 					for (var index in array[0]) {
-						line += index + ',';
+						line += index + delimiter;
 					}
 				}
 
 				line = line.slice(0, -1);
 				str += line + '\r\n';
-		 //   }
+		    }
 
 			for (var i = 0; i < array.length; i++) {
 				var line = '';
 
-				if ($("#quote").is(':checked')) {
+				if (useQuotedString) {
 					for (var index in array[i]) {
 						var value = array[i][index] + "";
-						line += '"' + value.replace(/"/g, '""') + '",';
+						//line = line.replace('\r\n','""\n""');
+						line += '"' + value.replace(/"/g, '""') + '"'+delimiter;
 					}
 				} else {
 					for (var index in array[i]) {
-						line += array[i][index] + ',';
+						line += array[i][index] + delimiter;
 					}
 				}
 
@@ -2137,13 +2148,25 @@ $(function() {
 		
 		var json = JSON.stringify($('form').serializeObject());
 		var name = "insp"+"_"+$('#date').val()+"_"+$('#unidade').val();
-		var csv = JSON2CSV("["+json+"]")
-
+		
+		// tries to find the regional list separator to create the correct csv
+		// only gets the browser separator, if it is different from the OS separator doesn't work
+		var list = ["a", "b"];
+		var listSeparator = list.toLocaleString().substring(1, 2);
+		
+		var csvWithHeaders = JSON2CSV("["+json+"]", ',', true, true);
+		var csvNoHeaders = JSON2CSV("["+json+"]", ',', false, true);
+		var csv2 = 
+					'\r\n\r\nValores separados por virgulas\r\n\r\n' +
+					csvWithHeaders +
+					'valores searados por ponto e virgula\r\n\r\n' +
+					JSON2CSV("["+json+"]", ';', true, true);
+					
 		
 		localStorage.setItem(name, json);
-		saveToDropBox(csv);
+		saveToDropBox(csvNoHeaders, append=true);
 		
-		download(name, csv);
+		download(name, csv2);
 		
 
 		$('#result').val(json);
@@ -2163,7 +2186,7 @@ $(function() {
 
 
 $(document).ready(function(){
-    
+
 	// cliking on the Obs balloon, hides/unhides the Obs textarea
 	$(".obs-balloon").click(function(){
 		//console.log($(this).next(".myObs"));

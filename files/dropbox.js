@@ -1351,8 +1351,10 @@
       }
       useForm = Dropbox.Util.Xhr.canSendForms && typeof data === 'object';
       if (useForm) {
+	  console.log('_writeFileUsingForm');
         return this._writeFileUsingForm(path, data, options, callback);
       } else {
+	  console.log('_writeFileUsingPut');
         return this._writeFileUsingPut(path, data, options, callback);
       }
     };
