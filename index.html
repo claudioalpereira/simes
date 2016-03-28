@@ -1967,20 +1967,20 @@
 			</footer>
 
 		<!-- Scripts -->
-			<script src="./Hyperspace by HTML5 UP_files/jquery.min.js"></script>
-			<script src="./Hyperspace by HTML5 UP_files/jquery.scrollex.min.js"></script>
-			<script src="./Hyperspace by HTML5 UP_files/jquery.scrolly.min.js"></script>
-			<script src="./Hyperspace by HTML5 UP_files/skel.min.js"></script>
-			<script src="./Hyperspace by HTML5 UP_files/util.js"></script>
+			<script src="./files/jquery.min.js"></script>
+			<script src="./files/jquery.scrollex.min.js"></script>
+			<script src="./files/jquery.scrolly.min.js"></script>
+			<script src="./files/skel.min.js"></script>
+			<script src="./files/util.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-			<script src="./Hyperspace by HTML5 UP_files/main.js"></script>
+			<script src="./files/main.js"></script>
 			
 			
 			
 <!-- Dropbox integration -->
-			<script src="./Hyperspace by HTML5 UP_files/dropbox.js"></script>
+			<script src="./files/dropbox.js"></script>
 			<script>
-					
+
 					var client;
 					var API_TOKEN = 'gXbZxKDMLG8AAAAAAAAsennEIAnMTl4JN7EcXAoW6c-7o2e3yVSCcwK5hJ_nazZw';
 					
@@ -1988,7 +1988,7 @@
 						if( client = 'undefined' ) { client = new Dropbox.Client({ token: API_TOKEN }); }
 						if( !client.isAuthenticated() ) { client.authenticate(); }
 						
-						client.writeFile('inspecoes.csv', content, function (error) {});
+						client.writeFile('inspecoes.csv', content, function (error) {console.log(error);});
 					}
 					
 					
@@ -2065,10 +2065,8 @@
 <script>
 function getLocation() {
 
-	console.log('getLocation');
     
 	if (navigator.geolocation) {
-        console.log();
 		navigator.geolocation.getCurrentPosition(showPosition);
     } else { 
         $('#location').val("Geolocation is not supported by this browser.");
@@ -2133,25 +2131,30 @@ $(document).ready(getLocation);
 	// botao submit serializa todos os inputs para JSON e guarda-os na localStorage e dropbox, se disponivel 
 $(function() {
     $('form').submit(function() {
+
 	
 		$('form').find(':checkbox:not(:checked)').attr('value', 'off').prop('checked', true);
 		
 		var json = JSON.stringify($('form').serializeObject());
 		var name = "insp"+"_"+$('#date').val()+"_"+$('#unidade').val();
 		var csv = JSON2CSV("["+json+"]")
+
 		
 		localStorage.setItem(name, json);
-		//saveToDropBox(csv);
+		saveToDropBox(csv);
 		
 		download(name, csv);
 		
-		location.reload();
 
 		$('#result').val(json);
 		
-		getLocation();
 		
-
+		$(".switch").fadeTo("slow",1);
+		$('.switch input[type="checkbox"]').prop('disabled', false);
+		$('.switch input[type="checkbox"]').prop('checked', false);
+		$('input[type="text"]').val('');
+		$('input[type="hidden"]').val('');
+		$('textarea').val('');
 		
         return false;
     });
@@ -2161,7 +2164,6 @@ $(function() {
 
 $(document).ready(function(){
     
-	
 	// cliking on the Obs balloon, hides/unhides the Obs textarea
 	$(".obs-balloon").click(function(){
 		//console.log($(this).next(".myObs"));
@@ -2195,9 +2197,7 @@ $(document).ready(function(){
 			$(this).prev(".obs-balloon").removeClass("fa-comments-0");		
 		}
 	});
-	
-	
-	
+		
 		// populates date field with current date
 		Date.prototype.toDateInputValue = (function() {
 		var local = new Date(this);
@@ -2205,39 +2205,10 @@ $(document).ready(function(){
 		return local.toJSON().slice(0,10);
 		});
 		$('#date').val(new Date().toDateInputValue());
-
-
-		
-/*
-		var x = document.getElementById("geo");
-
-
-		if (navigator.geolocation) {
-			console.log(navigator.geolocation);
-			navigator.geolocation.getCurrentPosition(showPosition);
-		} else { 
-			x.innerHTML = "Geolocation is not supported by this browser.";
-		}
-
-
-		function showPosition(position) {
-				console.log(position);
-
-			x.innerHTML = "Latitude: " + position.coords.latitude + 
-			"<br>Longitude: " + position.coords.longitude;	
-		}
-    
-	*/	
-
-
 	
 });
 
-
-
-<!-- ============================= altera numeracao para 1.1 1.2 etc  ==================================== -->
-	
-
+</script>
 
 </body>
 </html>
