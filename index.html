@@ -1980,34 +1980,25 @@
 <!-- Dropbox integration -->
 			<script src="./files/dropbox.js"></script>
 			<script>
-
-					var client;
-					var API_TOKEN = 'gXbZxKDMLG8AAAAAAAAsennEIAnMTl4JN7EcXAoW6c-7o2e3yVSCcwK5hJ_nazZw';
+				var client;
+				var API_TOKEN = 'gXbZxKDMLG8AAAAAAAAsennEIAnMTl4JN7EcXAoW6c-7o2e3yVSCcwK5hJ_nazZw';
+				
+				function saveToDropBox(content, append){
+					if( client = 'undefined' ) { client = new Dropbox.Client({ token: API_TOKEN }); }
+					if( !client.isAuthenticated() ) { client.authenticate(); }
 					
-					function saveToDropBox(content, append){
-						if( client = 'undefined' ) { client = new Dropbox.Client({ token: API_TOKEN }); }
-						if( !client.isAuthenticated() ) { client.authenticate(); }
-						
-						if(append){
-							client.readFile(
-								'inspecoes.csv',
-								null,
-								function(error, data, stat, rangeInfo){
-										client._writeFileUsingPut('inspecoes.csv', data+'\r\n\r\n'+content, function (error) {console.log(error);});
-								});
-						} else {
+					if(append){
+						try{
+							client.readFile('inspecoes.csv', function(error, data){ 
+								client._writeFileUsingPut('inspecoes.csv', data+'\r\n'+content, function (error) {console.log(error);});
+							});
+						} catch (err) {
 							client._writeFileUsingPut('inspecoes.csv', content, function (error) {console.log(error);});
 						}
-						//client._writeFileUsingPut('inspecoes.csv', content, function (error) {console.log(error);});
 					}
 					
-					
-					/*
-					var client = new Dropbox.Client({ token: 'gXbZxKDMLG8AAAAAAAAsennEIAnMTl4JN7EcXAoW6c-7o2e3yVSCcwK5hJ_nazZw' });
-					client.authenticate(function () {
-					client.writeFile('hello.txt', 'Hello, World!', function (error) {});
-					});
-					*/
+					client._writeFileUsingPut('inspecoes.csv', content, function (error) {console.log(error);});
+				}
 			</script>
 
 		<script>
