@@ -1992,15 +1992,15 @@
 					
 					if(append){
 						try{
-							client.readFile('inspecoes.csv', function(error, data){ 
-								client._writeFileUsingPut('inspecoes.csv', data+'\r\n'+content, function (error) {console.log(error);});
+							client.readFile('simesB.csv', function(error, data){ 
+								client._writeFileUsingPut('simesB.csv', data+'\r\n'+content, function (error) {console.log(error);});
 							});
 						} catch (err) {
-							client._writeFileUsingPut('inspecoes.csv', content, function (error) {console.log(error);});
+							client._writeFileUsingPut('simesB.csv', content, function (error) {console.log(error);});
 						}
 					}
 					
-					client._writeFileUsingPut('inspecoes.csv', content, function (error) {console.log(error);});
+					client._writeFileUsingPut('simesB.csv', content, function (error) {console.log(error);});
 				}
 			</script>
 
@@ -2141,7 +2141,7 @@ $(function() {
 		$('form').find(':checkbox:not(:checked)').attr('value', 'off').prop('checked', true);
 		
 		var json = JSON.stringify($('form').serializeObject());
-		var name = "insp"+"_"+$('#date').val()+"_"+$('#unidade').val();
+		var name = "simesB"+"_"+$('#date').val()+"_"+$('#unidade').val();
 		
 		// tries to find the regional list separator to create the correct csv
 		// only gets the browser separator, if it is different from the OS separator doesn't work
