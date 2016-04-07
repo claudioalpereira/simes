@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<!-- saved from url=(0016)http://localhost -->
 <!-- saved from url=(0045)http://html5up.net/uploads/demos/hyperspace/# -->
 <html>
 <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -36,7 +38,7 @@
 		<!-- Wrapper -->
 			<div id="wrapper">
 
-			<form action="" method="post">
+			<form action="" method="">
 
 				<!-- Intro -->
 					<section id="intro" class="wrapper style1 fullscreen fade-up">
@@ -1525,15 +1527,74 @@ $(document).ready(getLocation);
 		link.click();
 		document.body.removeChild(link);
 	}
-	
+function msieversion() {
+   var ua = window.navigator.userAgent;
+   var msie = ua.indexOf("MSIE ");
+   if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) // If Internet Explorer, return true
+   {
+     return true;
+   } else { // If another browser,
+   return false;
+   }
+   return false;
+}
+function JSONToCSVConvertor(fileName, JSONData, ShowLabel) {
+     var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
+     var CSV = '';
+     if (ShowLabel) {
+         var row = "";
+         for (var index in arrData[0]) {
+             row += index + ',';
+         }
+         row = row.slice(0, -1);
+         CSV += row + '\r\n';
+     }
+     for (var i = 0; i < arrData.length; i++) {
+         var row = "";
+         for (var index in arrData[i]) {
+             var arrValue = arrData[i][index] == null ? "" : '="' + arrData[i][index] + '"';
+             row += arrValue + ',';
+         }
+         row.slice(0, row.length - 1);
+         CSV += row + '\r\n';
+     }
+     if (CSV == '') {
+         growl.error("Invalid data");
+         return;
+     }
+      
+	  if(!fileName){
+		fileName = "Result";
+	 }
+     if(msieversion()){
+         var IEwindow = window.open('about:blank');
+         IEwindow.document.write('sep=,\r\n' + CSV);
+         IEwindow.document.close();
+         IEwindow.document.execCommand('SaveAs', true, fileName + ".csv");
+         IEwindow.close();
+     } else {
+         var uri = 'data:application/csv;charset=utf-8,' + escape(CSV);
+         var link = document.createElement("a");
+         link.href = uri;
+         link.style = "visibility:hidden";
+         link.download = fileName + ".csv";
+         document.body.appendChild(link);
+         link.click();
+         document.body.removeChild(link);
+     }
+}	
 	// botao submit serializa todos os inputs para JSON e guarda-os na localStorage e dropbox, se disponivel 
 $(function() {
     $('form').submit(function() {
-
-	
+try{
+		// WORKAROUND: by default, unchecked inputs aren't serialized
+		// this line assures they are serialized
 		$('form').find(':checkbox:not(:checked)').attr('value', 'off').prop('checked', true);
 		
+		
 		var json = JSON.stringify($('form').serializeObject());
+		
+		// computes csv name
 		var name = "simesA"+"_"+$('#date').val()+"_"+$('#unidade').val();
 		
 		// tries to find the regional list separator to create the correct csv
@@ -1541,32 +1602,47 @@ $(function() {
 		var list = ["a", "b"];
 		var listSeparator = list.toLocaleString().substring(1, 2);
 		
-		var csvWithHeaders = JSON2CSV("["+json+"]", ',', true, true);
-		var csvNoHeaders = JSON2CSV("["+json+"]", ',', false, true);
-		var csv2 = 
+		// UGLY & SLOW: more pragmatic approach - uses both , and ; as separator
+		var csvWithHeaders_comma = JSON2CSV("["+json+"]", ',', true, true);
+		var csvNoHeaders_comma = JSON2CSV("["+json+"]", ',', false, true);
+		var csvWithHeaders_colon = JSON2CSV("["+json+"]", ';', true, true);
+		var csvNoHeaders_colon = JSON2CSV("["+json+"]", ';', false, true);
+		
+		// local storage
+		if(window.localStorage){
+			localStorage.setItem(name, json);
+		}
+		
+		// dropbox
+		saveToDropBox(csvNoHeaders_comma, append=true);
+		
+		// download
+		/*var csv2 = 
 					'\r\n\r\nValores separados por virgulas\r\n\r\n' +
-					csvWithHeaders +
-					'valores searados por ponto e virgula\r\n\r\n' +
-					JSON2CSV("["+json+"]", ';', true, true);
-					
-		
-		localStorage.setItem(name, json);
-		saveToDropBox(csvNoHeaders, append=true);
-		
+					csvWithHeaders_comma +
+					'valores separados por ponto e virgula\r\n\r\n' +
+					csvWithHeaders_colon;
 		download(name, csv2);
+		*/
+		JSONToCSVConvertor(name, json, true);
 		
-
-		$('#result').val(json);
+					
+		// DEBUG:
+		//$('#result').val(json);
 		
-		
+		// reset
+		$("html, body").animate({ scrollTop: 0 }, 1000);
 		$(".switch").fadeTo("slow",1);
+		$(".myObs").hide(2000);
 		$('.switch input[type="checkbox"]').prop('disabled', false);
 		$('.switch input[type="checkbox"]').prop('checked', false);
 		$('input[type="text"]').val('');
 		$('input[type="hidden"]').val('');
 		$('textarea').val('');
-		
-        return false;
+		}catch(err){
+			alert(err.message);
+		}
+		return false;
     });
 });
 
