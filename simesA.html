@@ -44,11 +44,11 @@
 					<section id="intro" class="wrapper style1 fullscreen fade-up">
 						<div class="inner">
 							<h1 style="display:inline">SIMES - A</h1>
-							</br>
+							<br/>
 							<h3>Praticas de Confecao</h3>
 							
 							(Para inspecoes a instalacoes, utilizar o formulario <a href="./simesB.html">SIMES - B</a>.)
-							</br></br>
+							<br/><br/>
 
 							Tipo de inspecao: 
 							<input type="radio" id="rInterna" name="IntExt" value="i" selected style="display:inline"/> <label for="rInterna"  style="display:inline">Interna</label>
@@ -1382,6 +1382,9 @@
 				var API_TOKEN = 'gXbZxKDMLG8AAAAAAAAsennEIAnMTl4JN7EcXAoW6c-7o2e3yVSCcwK5hJ_nazZw';
 				
 				function saveToDropBox(content, append){
+					
+					var allOK = true;
+					
 					if( client = 'undefined' ) { client = new Dropbox.Client({ token: API_TOKEN }); }
 					if( !client.isAuthenticated() ) { client.authenticate(); }
 					
@@ -1395,7 +1398,9 @@
 						}
 					}
 					
-					client._writeFileUsingPut('simesA.csv', content, function (error) {console.log(error);});
+					client._writeFileUsingPut('simesA.csv', content, function (error) {console.log(error); if(error){allOK = false;}});
+					
+					return allOK;
 				}
 			</script>
 
@@ -1539,7 +1544,10 @@ function msieversion() {
    return false;
 }
 function JSONToCSVConvertor(fileName, JSONData, ShowLabel) {
-     var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
+     
+	 var allOK = false;
+	 
+	 var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
      var CSV = '';
      if (ShowLabel) {
          var row = "";
@@ -1566,6 +1574,7 @@ function JSONToCSVConvertor(fileName, JSONData, ShowLabel) {
 	  if(!fileName){
 		fileName = "Result";
 	 }
+	 
      if(msieversion()){
          var IEwindow = window.open('about:blank');
          IEwindow.document.write('sep=,\r\n' + CSV);
@@ -1582,27 +1591,53 @@ function JSONToCSVConvertor(fileName, JSONData, ShowLabel) {
          link.click();
          document.body.removeChild(link);
      }
+	 allOK = true;
+}	
+function download2(fileName, csv, ShowLabel) {
+     
+	 var allOK = false;
+	       	 
+     if(msieversion()){
+         var IEwindow = window.open('about:blank');
+         IEwindow.document.write('sep=,\r\n' + csv);
+         IEwindow.document.close();
+         IEwindow.document.execCommand('SaveAs', true, fileName + ".csv");
+         IEwindow.close();
+     } else {
+         var uri = 'data:application/csv;charset=utf-8,' + escape(csv);
+         var link = document.createElement("a");
+         link.href = uri;
+         link.style = "visibility:hidden";
+         link.download = fileName + ".csv";
+         document.body.appendChild(link);
+         link.click();
+         document.body.removeChild(link);
+     }
+	 allOK = true;
 }	
 	// botao submit serializa todos os inputs para JSON e guarda-os na localStorage e dropbox, se disponivel 
 $(function() {
     $('form').submit(function() {
 try{
-		// WORKAROUND: by default, unchecked inputs aren't serialized
-		// this line assures they are serialized
-		$('form').find(':checkbox:not(:checked)').attr('value', 'off').prop('checked', true);
+		var localStored = false;
+		var dropboxStored = false;
+		var downloadStored = false;
 		
+
+		// by default, unchecked inputs aren't serialized, this line assures they are
+		$('form').find(':checkbox:not(:checked)').attr('value', 'off').prop('checked', true);
 		
 		var json = JSON.stringify($('form').serializeObject());
 		
 		// computes csv name
 		var name = "simesA"+"_"+$('#date').val()+"_"+$('#unidade').val();
 		
-		// tries to find the regional list separator to create the correct csv
+		// CURRENTY NOT USED: tries to find the regional list separator to create the correct csv
 		// only gets the browser separator, if it is different from the OS separator doesn't work
 		var list = ["a", "b"];
 		var listSeparator = list.toLocaleString().substring(1, 2);
 		
-		// UGLY & SLOW: more pragmatic approach - uses both , and ; as separator
+		// UGLY & SLOW: creates al 4 combinations of csv files 
 		var csvWithHeaders_comma = JSON2CSV("["+json+"]", ',', true, true);
 		var csvNoHeaders_comma = JSON2CSV("["+json+"]", ',', false, true);
 		var csvWithHeaders_colon = JSON2CSV("["+json+"]", ';', true, true);
@@ -1611,20 +1646,24 @@ try{
 		// local storage
 		if(window.localStorage){
 			localStorage.setItem(name, json);
+			localStored = true;
 		}
 		
 		// dropbox
-		saveToDropBox(csvNoHeaders_comma, append=true);
 		
+		if(saveToDropBox(csvNoHeaders_comma, append=true)){
+			dropboxStored = true;
+		}
+		
+		//JSONToCSVConvertor(name, json, true);
 		// download
-		/*var csv2 = 
+		var csv2 = 
 					'\r\n\r\nValores separados por virgulas\r\n\r\n' +
 					csvWithHeaders_comma +
 					'valores separados por ponto e virgula\r\n\r\n' +
 					csvWithHeaders_colon;
-		download(name, csv2);
-		*/
-		JSONToCSVConvertor(name, json, true);
+		download2(name, csv2);
+		
 		
 					
 		// DEBUG:
