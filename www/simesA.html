@@ -1246,7 +1246,9 @@
 						
 						<section>
 							<input type="submit" class="button submit" >
-						</section>						
+							<div id="logdiv"></div>
+
+							</section>						
 					
 					</section>
 
@@ -1647,12 +1649,14 @@ try{
 		if(window.localStorage){
 			localStorage.setItem(name, json);
 			localStored = true;
+			$("#logdiv").append("<p>Saved to localStorage</p>");
 		}
 		
 		// dropbox
 		
 		if(saveToDropBox(csvNoHeaders_comma, append=true)){
 			dropboxStored = true;
+			$("#logdiv").append("<p>Saved to dropbox</p>");
 		}
 		
 		//JSONToCSVConvertor(name, json, true);
@@ -1670,7 +1674,7 @@ try{
 		//$('#result').val(json);
 		
 		// reset
-		$("html, body").animate({ scrollTop: 0 }, 1000);
+		//$("html, body").animate({ scrollTop: 0 }, 1000);
 		$(".switch").fadeTo("slow",1);
 		$(".myObs").hide(2000);
 		$('.switch input[type="checkbox"]').prop('disabled', false);
@@ -1678,6 +1682,8 @@ try{
 		$('input[type="text"]').val('');
 		$('input[type="hidden"]').val('');
 		$('textarea').val('');
+		//$("logdiv").empty();
+
 		}catch(err){
 			alert(err.message);
 		}
