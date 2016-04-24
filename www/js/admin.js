@@ -43,7 +43,7 @@ var getItems = function() {
 		}
 		
 		//now that we have the item, lets add it to the table
-		timeLog += '<tr id="'+itemKey+'" class="tableRow"><td>'+itemKey+'</td><td>'+obj.IntExt+'</td><td>'+obj.num+'</td><td>'+obj.data+'</td><td>'+obj.unidade+'</td><td><a title="download csv" class="downloadItem icon major fa-download" style="display:inline-block"> </a><a title="upload para dropbox" class="uploadItem icon major  fa-cloud-upload" style="display:inline-block"> </a><a title="apagar" class="deleteItem icon major fa-times" style="display:inline-block"> </a></td></tr>';
+		timeLog += '<tr id="'+itemKey+'" class="tableRow"><td>'+itemKey+'</td><td>'+obj.data+'</td><td>'+obj.unidade+'</td><td><a title="download csv" class="downloadItem icon major fa-download" style="display:inline-block"> </a><a title="upload para dropbox" class="uploadItem icon major  fa-cloud-upload" style="display:inline-block"> </a><a title="apagar" class="deleteItem icon major fa-times" style="display:inline-block"> </a></td></tr>';
 	}
 			
 	//var csv = JSON2CSV(objs, ',', true, true);

@@ -81,8 +81,14 @@
 <ol>
 
 <li>
- <div class="slideThree mySlide" >  <input type="checkbox"  id="slideThree1_1" name="c1_1" checked /> <label for="slideThree1_1"></label> </div> 
- <div class="switch demo1"> <input type="checkbox" id="estado1_1" name="me1_1" unchecked /> <label></label> </div> 
+ <div class="slideThree mySlide" >  
+	<input type="checkbox"  id="slideThree1_1" name="c1_1" checked /> 
+	<label for="slideThree1_1"></label> 
+</div> 
+ <div class="switch demo1"> 
+	<input type="checkbox" id="estado1_1" name="me1_1" unchecked /> 
+	<label for="estado1_1"></label> 
+</div> 
  Verifica a adequação da viatura ao serviço
  <span class="icon minor fa-comments-o obs-balloon"></span>
  <div class="field myObs"  hidden="true">
@@ -1269,8 +1275,46 @@
 								</section>
 								<section>
 									<span class="icon major fa-cog"></span>
-									<h3>Sed erat ullam corper</h3>
-									<p>Phasellus convallis elit id ullam corper amet et pulvinar. Duis aliquam turpis mauris, sed ultricies erat dapibus.</p>
+									<h3>Legenda</h3>
+
+									<div>
+										<div class="slideThree mySlide" id="slide3_ex_ok_div" >  
+											<span type="checkbox"  id="slide3_ex_ok_span" /> 
+											<label for="slide3_ex_ok_span" id="slide3_ex_ok_lbl"></label> 
+										</div> 
+										<div class="switch demo1"> 
+											<span id="chbkExample_ok" /> 
+											<label for="chbkExample_ok"></label> 
+										</div> 
+										OK
+									</div> 
+ 
+									<div>
+										<div class="slideThree mySlide" id="slide3_ex_nok_div">  
+											<span type="checkbox"  id="slide3_ex_nok_span" /> 
+											<label for="slide3_ex_nok_span" id="slide3_ex_nok_lbl"></label> 
+										</div> 
+										<div class="switch demo1 ex_off"> 
+											<span id="chbkExample_nok" /> 
+											<label for="chbkExample_nok"></label> 
+										</div> 
+										Não OK
+									</div> 
+ 
+									<div>
+										<div class="slideThree mySlide" id="slide3_ex_na_div">  
+											<span type="checkbox"  id="slide3_ex_na_span" /> 
+											<label for="slide3_ex_na_span" id="slide3_ex_na_lbl"></label> 
+										</div> 
+										<div class="switch demo1 ex_na"> 
+											<span id="chbkExample_na" /> 
+											<label for="chbkExample_na" id="lbl_demo1_ex_na"></label> 
+										</div>
+										Não Aplicável										
+									</div> 
+ 
+ 
+ 
 								</section>
 								<section>
 									<span class="icon major fa-desktop"></span>
@@ -1376,6 +1420,7 @@
 			<script src="./js/my.js"></script>			
 			<!-- Dropbox integration -->
 			<script src="./files/dropbox.js"></script>			
+			<script src="./files/Stuk-jszip-f355e18/dist/jszip.js"></script>			
 
 			<script>
 				var pagename = 'simesA';

@@ -18,7 +18,7 @@ function saveToDropBox(filename, content, append){
 	
 	if(append){
 		try{
-			client.readFile(filename , function(error, data){ 
+			client.readFile(filename , {binary:true}, function(error, data){ 
 				client._writeFileUsingPut(filename, data+content, function (error) {console.log(error);});
 			});
 		} catch (err) {
@@ -234,8 +234,25 @@ $(function() {
 			$("#logdiv").append("<p>localStorage not available</p>");
 		}
 		
+		
+		// zip
+		var zip = new JSZip();
+		zip.file(name+'.csv', csvWithHeaders_comma);
+		
+		var promise = null;
+		if (JSZip.support.uint8array) {
+		  promise = zip.generateAsync({type : "uint8array"});
+		} else {
+		  promise = zip.generateAsync({type : "string"});
+		}
+		promise.then(function(result) {
+			saveToDropBox(name, result, append=false);
+		}, function(err) {
+			console.log('Error zipping file'); 
+		});
+		
 		// dropbox
-		if(saveToDropBox(pagename+'.csv', csvWithHeaders_comma, append=true )){
+		if(saveToDropBox(pagename+'.csv', csvWithHeaders_comma, append=false )){
 			$("#logdiv").append("<p>Saved to the cloud</p>");
 		} else {
 			$("#logdiv").append("<p>cloud not available</p>");
