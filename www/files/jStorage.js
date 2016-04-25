@@ -49,15 +49,14 @@
 
         /* check for a JSON handling support */
         JSON = {
-            parse: window.JSON && (window.JSON.parse || window.JSON.decode) ||
-                String.prototype.evalJSON && function(str) {
-                    return String(str).evalJSON();
-            } ||
-                $.parseJSON ||
-                $.evalJSON,
+            parse: 	  window.JSON && (window.JSON.parse || window.JSON.decode) ||
+						  String.prototype.evalJSON && function(str) { return String(str).evalJSON(); } ||
+						  $.parseJSON ||
+						  $.evalJSON,
+				
             stringify: Object.toJSON ||
-                window.JSON && (window.JSON.stringify || window.JSON.encode) ||
-                $.toJSON
+						  window.JSON && (window.JSON.stringify || window.JSON.encode) ||
+						  $.toJSON
         };
 
     // Break if no JSON support was found

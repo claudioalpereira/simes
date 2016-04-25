@@ -43,7 +43,6 @@ function readFromDropBox(filename){
 	});
 	
 	return content;
-
 }
 
 
@@ -82,7 +81,7 @@ function JSON2CSV(objArray, delimiter, includeHeaders, useQuotedString) {
 		if (useQuotedString) {
 			for (var index in array[i]) {
 				var value = array[i][index] + "";
-				//line = line.replace('\r\n','""\n""');
+				line = line.replace('\r\n','\n');
 				line += '"' + value.replace(/"/g, '""') + '"'+delimiter;
 			}
 		} else {
@@ -109,6 +108,40 @@ $("#download").click(function() {
 	var csv = JSON2CSV(json);
 	window.open("data:text/csv;charset=utf-8," + escape(csv))
 });
+
+
+
+//=============================================================================== 
+//
+//	JSON 2 HTML Table
+//
+//=============================================================================== 
+
+ function myJSON2HTML(json) {
+	var json = typeof json != 'object' ? JSON.parse(json) : json;
+
+	var tbl = '<table><tr>';
+	
+	for (var k in json) {
+		if(!json.hasOwnProperty(k)) continue;	
+		tbl += '<th style="color:white; background-color:black;">'+k+'</th>';
+	}
+	tbl += '</tr>';
+	
+	for (var k in json) {
+		if(!json.hasOwnProperty(k)) continue;
+		
+		// In order to cope with line feeds inside the same cell, we use the excel-specific br style 
+		// ...and a very clever replaceAll taken from https://gist.github.com/CrowderSoup/9095873 :)
+		var data = json[k].split('\r\n').join('<br style="mso-data-placement:same-cell;" />');
+		
+		tbl += '<td>'+data+'</td>';
+	}
+	tbl += '</tr></table>';
+	
+	return tbl;
+}
+		
 
 
 //=============================================================================== 
@@ -153,20 +186,27 @@ function isInternetExplorer() {
    return (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./));
 }
 
-function download2(fileName, csv, ShowLabel) {
+function download2(fileName, data, type) {
+	
+	var content_type;
+	
+	// .csv and .xls are the only options
+	if(type == 'csv') content_type = 'data:application/csv;charset=utf-8,';
+	else if(type == 'xls') content_type = 'data:application/vnd.ms-excel,';
+	else return;
      
      if(isInternetExplorer()){
          var IEwindow = window.open('about:blank');
-         IEwindow.document.write('sep=,\r\n' + csv);
+         IEwindow.document.write('sep=,\r\n' + data);
          IEwindow.document.close();
-         IEwindow.document.execCommand('SaveAs', true, fileName + ".csv");
+         IEwindow.document.execCommand('SaveAs', true, fileName + "."+type);
          IEwindow.close();
      } else {
-         var uri = 'data:application/csv;charset=utf-8,' + escape(csv);
+         var uri = content_type + escape(data);
          var link = document.createElement("a");
          link.href = uri;
          link.style = "visibility:hidden";
-         link.download = fileName + ".csv";
+         link.download = fileName + "." + type;
          document.body.appendChild(link);
          link.click();
          document.body.removeChild(link);
@@ -205,19 +245,21 @@ $.fn.serializeObject = function()
 	// botao submit serializa todos os inputs para JSON e guarda-os na localStorage e dropbox, se disponivel 
 $(function() {
     $('form').submit(function() {
+		
 	try{
 
 		// by default, unchecked inputs aren't serialized, this line assures they are
 		$('form').find(':checkbox:not(:checked)').attr('value', 'off').prop('checked', true);
 		
 		var json = JSON.stringify($('form').serializeObject());
+		var xls = myJSON2HTML(json);
 		
-		// computes csv name
+		// computes name
 		var name = pagename+"_"+$('#date').val()+"_"+$('#unidade').val();
 		
 		// CURRENTY NOT USED: tries to find the regional list separator to create the correct csv
 		// only gets the browser separator, if it is different from the OS separator doesn't work
-		var list = ["a", "b"];
+/*		var list = ["a", "b"];
 		var listSeparator = list.toLocaleString().substring(1, 2);
 		
 		// UGLY & SLOW: creates all 4 combinations of csv files 
@@ -225,7 +267,7 @@ $(function() {
 		var csvNoHeaders_comma = JSON2CSV("["+json+"]", ',', false, true);
 		var csvWithHeaders_colon = JSON2CSV("["+json+"]", ';', true, true);
 		var csvNoHeaders_colon = JSON2CSV("["+json+"]", ';', false, true);
-		
+*/		
 		// local storage
 		if(window.localStorage){
 			localStorage.setItem(name, json);
@@ -234,9 +276,11 @@ $(function() {
 			$("#logdiv").append("<p>localStorage not available</p>");
 		}
 		
+		download2(name, xls, 'xls');
+		//window.open('data:application/vnd.ms-excel,' + xls);
 		
 		// zip
-		var zip = new JSZip();
+/*		var zip = new JSZip();
 		zip.file(name+'.csv', csvWithHeaders_comma);
 		
 		var promise = null;
@@ -250,22 +294,22 @@ $(function() {
 		}, function(err) {
 			console.log('Error zipping file'); 
 		});
-		
+*/		
 		// dropbox
-		if(saveToDropBox(pagename+'.csv', csvWithHeaders_comma, append=false )){
+		if(saveToDropBox(name+'.xls', xls)){
 			$("#logdiv").append("<p>Saved to the cloud</p>");
 		} else {
 			$("#logdiv").append("<p>cloud not available</p>");
 		}
 		
 		// download
-		var csv2 = 
+/*		var csv2 = 
 					'\r\n\r\nValores separados por virgulas\r\n\r\n' +
 					csvWithHeaders_comma +
 					'valores separados por ponto e virgula\r\n\r\n' +
 					csvWithHeaders_colon;
-		download2(name, csv2);
-		
+		download2(name, csvWithHeaders_comma);
+
 		// reset
 		//$("html, body").animate({ scrollTop: 0 }, 1000);
 		$(".switch").fadeTo("slow",1);
@@ -275,10 +319,14 @@ $(function() {
 		$('input[type="text"]').val('');
 		$('input[type="hidden"]').val('');
 		$('textarea').val('');
-		$('input').prop('disabled', true);
+*/		$('input').prop('disabled', true);
+/*		
+		$("html, body").scrollTop(0);
+		if(confirm('Registo gravado.')){
+			window.location.reload();
+		}
 		
-		
-		
+*/	
 		}catch(err){
 			$("#logdiv").append(err.message);
 			alert(err.message);
