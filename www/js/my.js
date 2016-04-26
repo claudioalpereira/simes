@@ -120,7 +120,7 @@ $("#download").click(function() {
  function myJSON2HTML(json) {
 	var json = typeof json != 'object' ? JSON.parse(json) : json;
 
-	var tbl = '<table><tr>';
+	var tbl = '<html><head><meta http-equiv=Content-Type content="text/html; charset=windows-1252"></head><body><table><tr>';
 	
 	for (var k in json) {
 		if(!json.hasOwnProperty(k)) continue;	
@@ -137,7 +137,7 @@ $("#download").click(function() {
 		
 		tbl += '<td>'+data+'</td>';
 	}
-	tbl += '</tr></table>';
+	tbl += '</tr></table></body></html>';
 	
 	return tbl;
 }
