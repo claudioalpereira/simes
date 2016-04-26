@@ -7,7 +7,7 @@ checklist de inspecoes
 * Página de config (conta dropbox, etc)
 * OK - adicionar legenda à checkboxes
 * carregamento dinâmico de perguntas (js) / página de edicão de perguntas
-* no upload para o dropbox, os caracteres PT estão errados, no download local estão bem
+* no upload para o dropbox, os caracteres PT estão errados, no download local estão bem (acontece com ficheiros .csv e .xls)
 * auto-update
 
 
