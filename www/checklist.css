@@ -1,0 +1,174 @@
+.content{
+	z-index:3;
+}
+
+select{
+  width: 100%;
+  height: 35px;
+  -webkit-appearance: none;
+  padding: 0 15px;
+  margin-bottom: 15px;
+  line-height: 21px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  outline: none;
+
+}
+
+/* Show "Left" drawer for the "Right" drawer in the demo */
+.snapjs-right .snap-drawer-left {
+	display: block;
+	right: 0;
+	left: auto;
+}
+
+/* Hide the actual "Right" drawer in the demo */
+.snapjs-right .snap-drawer-right {
+	display: none;
+}
+
+/* Styles for fading out the drawer content in the "Expanding" demo */
+.drawer-inner {
+	-webkit-transition: opacity 0.3s ease; 
+	   -moz-transition: opacity 0.3s ease; 
+	    -ms-transition: opacity 0.3s ease; 
+	     -o-transition: opacity 0.3s ease; 
+	        transition: opacity 0.3s ease; 
+}
+
+.snapjs-expand-left .drawer-inner,
+.snapjs-expand-right .drawer-inner {
+	opacity: 0;
+}
+
+
+/* Default demo styles */
+.snap-content {
+  background: white;
+}
+
+.snap-drawers {
+  background: #323949;
+}
+
+.snap-drawer {
+	background: #323949;
+	color: #eee;
+}
+
+.snap-drawer h3 {
+  font-size: 36px;
+  font-weight: normal;
+  margin: 15px;
+}
+
+.snap-drawer h4 {
+  padding: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 0;
+}
+
+.snap-drawer ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.snap-drawer li > a {
+  display: block;
+  border-bottom: 1px solid rgba(0,0,0, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  font-weight: bold;
+  text-shadow: 0 1px 0 #000;
+  text-decoration: none;
+  color: #ccc;
+  text-indent: 20px;
+}
+
+.snap-drawer p {
+  opacity: 0.5;
+  padding: 15px;
+  font-size: 12px;
+}
+.my-icon{
+	width: 50px;
+    height: 50px;
+    margin: 3px;
+    font-size: 24px;
+    line-height: 50px;
+    text-align: center;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+}
+.icon-label{
+	width: 50px;
+    margin: 3px;
+    margin-bottom: 1px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    text-align: center;
+}
+.menu {
+	background:rgba(248, 248, 248, 1);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    overflow: auto;
+	margin-top: 44px;
+}
+.menu ul{
+	margin-left:0px;
+	margin-right:0px;
+	padding-left:0px;
+	padding-right:0px;
+}
+.menu-left {
+    left: 0;
+    width: 50%;
+}
+.menu-right {
+    right: 0;
+	left: auto;
+    width: 50%;
+}
+.menu-right > * {
+    position: absolute;
+    right: 0;
+	left: auto;
+	list-style-type: none;	
+}
+
+#content{
+	border: 1px solid #ddd;	
+}
+
+body{
+	
+font-family: AppleGothic, sans-serif;
+
+}
+
+#header_card{
+	margin-top:105px;
+}
+
+#description-wrapper{
+	background: url("img/splash3.jpg");
+	background-size: 100% ;
+    position:fixed;
+	height:120px; 
+	opacity:1;
+	margin:0px;
+}
+#main-title{
+	color:black;
+	height:2em;
+	width:20%;
+	margin-left: auto;
+	margin-right: auto;
+	font-family: Century Gothic, sans-serif;
+}
+
