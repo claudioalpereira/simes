@@ -14,9 +14,6 @@ var cl = {
 		{text:'Unidade', name:'unidade'}
 	],
 
-
-
-
 	checklist : [
 		{
 			section : 'Cozinha',
@@ -236,7 +233,10 @@ function parseAnswerSnippetsIntoHtmlSelect(obj){
 $(document).ready(function(){
 	parseObj(cl);
 	$('.my_btn').each(function(idx, el){ setButtonColor(el); });
-	headShrinker();
+	
+	// disabled due to performance issues on mobile platforms
+	// the head still shrinks, but with the ugliest method 
+	//headShrinker();
 	addModalListenerToButtons();
 	addPredefinedTextToModals();
 	
