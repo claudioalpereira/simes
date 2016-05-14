@@ -7,104 +7,117 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-    <link href="./css/ratchet.css" rel="stylesheet">
-    <link href="./checklist.css" rel="stylesheet">
+    <link href="./css/ratchet-modificado.css" rel="stylesheet">
+    <link href="./css/checklist.css" rel="stylesheet">
 
-    <script src="./js/ratchet.js"></script>
   </head>
   <body>
 
+	<form id="checklist_form">
 
-    <!-- Make sure all your bars are the first things in your <body> -->
-	<header id="description-wrapper" class="card bar bar-nav">
-		<p id="main-title" class="content-padded"></p>
-	</header>
-	
-	<div class="menu-wrapper">
-	  <span id="" class="menu menu-left">
-		<ul>
-		  <li><a class="icon my-icon  icon-home"></a></li>
-		  <li style="margin-top:-10px"><p class="icon-label">home</p></li>
-		  <li><a class="icon my-icon  icon-more"></a></li>
-		  <li style="margin-top:-10px"><p class="icon-label">more</p></li>
-		  <li><a class="icon my-icon  icon-close"></a></li>
-		  <li style="margin-top:-10px"><p class="icon-label">fechar</p></li>
-		  <li><a class="icon my-icon  icon-compose"></a></li>
-		  <li><a class="icon my-icon  icon-gear"></a></li>
-		  <li style="margin-top:-10px"><p class="icon-label">settings</p></li>
-		  <li><a class="icon my-icon  icon-download"></a></li>
-		  <li style="margin-top:-10px"><p class="icon-label">download</p></li>
-		  <li><a class="icon my-icon  icon-pages"></a></li>
-		  <li><a class="icon my-icon  icon-back"></a></li>
-		  <li><a class="icon my-icon  icon-bars"></a></li>
-		  <li><a class="icon my-icon  icon-caret"></a></li>
-		  <li><a class="icon my-icon  icon-check"></a></li>
-		  <li><a class="icon my-icon  icon-more-vertical"></a></li>
-		  <li><a class="icon my-icon  icon-edit"></a></li>
-		  <li><a class="icon my-icon  icon-code" ></a></li>
-		  <li><a class="icon my-icon  icon-forward"></a></li>
-		  <li><a class="icon my-icon  icon-info"></a></li>
-		  <li><a class="icon my-icon  icon-list"></a></li>
-		  <li><a class="icon my-icon  icon-pause"></a></li>
-		  <li><a class="icon my-icon  icon-person"></a></li>
-		  <li><a class="icon my-icon  icon-play"></a></li>
-		  <li><a class="icon my-icon  icon-plus"></a></li>
-		  <li><a class="icon my-icon  icon-refresh"></a></li>
-		  <li><a class="icon my-icon  icon-search"></a></li>
-		  <li><a class="icon my-icon  icon-share"></a></li>
-		  <li><a class="icon my-icon  icon-star"></a></li>
-		  <li><a class="icon my-icon  icon-stop"></a></li>
-		  <li><a class="icon my-icon  icon-trash"></a></li>
-		</ul>
-	</span>
-
-	<span id="" class="menu menu-right pull-right">
-		<ul>
-		  
-		  <li> <span class="toggle active"><span class="toggle-handle"></span></span> </li>
-		  <li> <span class="toggle active"><span class="toggle-handle"></span></span> </li>
-		  <li> <span class="toggle active"><span class="toggle-handle"></span></span> </li>
-		  <li> <span class="toggle active"><span class="toggle-handle"></span></span> </li>
-		  <li> <span class="toggle active"><span class="toggle-handle"></span></span> </li>
-		  <li> <span class="toggle active"><span class="toggle-handle"></span></span> </li>
-		  <li> <span class="toggle active"><span class="toggle-handle"></span></span> </li>
-		  <li> <span class="toggle active"><span class="toggle-handle"></span></span> </li>
-		  <li> <span class="toggle active"><span class="toggle-handle"></span></span> </li>
-		  <li> <span class="toggle active"><span class="toggle-handle"></span></span> </li>
-		  <li> <span class="toggle active"><span class="toggle-handle"></span></span> </li>
-		  <li> <span class="toggle active"><span class="toggle-handle"></span></span> </li>
+			<!-- Make sure all your bars are the first things in your <body> -->
+			<header id="description-wrapper" class="card bar bar-nav">
+				<p id="main-title" class="content-padded"></p>
+			</header>
 			
-		</ul>
-	</span>
-</div>
+			<div class="menu-wrapper">
+			  <span id="" class="menu menu-left">
+				<ul>
+				  <li><a class="icon my-icon  icon-home"></a></li>
+				  <li style="margin-top:-10px"><p class="icon-label">home</p></li>
+				  <li><a class="icon my-icon  icon-more"></a></li>
+				  <li style="margin-top:-10px"><p class="icon-label">more</p></li>
+				  <li><a class="icon my-icon  icon-close"></a></li>
+				  <li style="margin-top:-10px"><p class="icon-label">fechar</p></li>
+				  <li><a class="icon my-icon  icon-compose"></a></li>
+				  <li><a class="icon my-icon  icon-gear"></a></li>
+				  <li style="margin-top:-10px"><p class="icon-label">settings</p></li>
+				  <li><a class="icon my-icon  icon-download"></a></li>
+				  <li style="margin-top:-10px"><p class="icon-label">download</p></li>
+				  <li><a class="icon my-icon  icon-pages"></a></li>
+				  <li><a class="icon my-icon  icon-back"></a></li>
+				  <li><a class="icon my-icon  icon-bars"></a></li>
+				  <li><a class="icon my-icon  icon-caret"></a></li>
+				  <li><a class="icon my-icon  icon-check"></a></li>
+				  <li><a class="icon my-icon  icon-more-vertical"></a></li>
+				  <li><a class="icon my-icon  icon-edit"></a></li>
+				  <li><a class="icon my-icon  icon-code" ></a></li>
+				  <li><a class="icon my-icon  icon-forward"></a></li>
+				  <li><a class="icon my-icon  icon-info"></a></li>
+				  <li><a class="icon my-icon  icon-list"></a></li>
+				  <li><a class="icon my-icon  icon-pause"></a></li>
+				  <li><a class="icon my-icon  icon-person"></a></li>
+				  <li><a class="icon my-icon  icon-play"></a></li>
+				  <li><a class="icon my-icon  icon-plus"></a></li>
+				  <li><a class="icon my-icon  icon-refresh"></a></li>
+				  <li><a class="icon my-icon  icon-search"></a></li>
+				  <li><a class="icon my-icon  icon-share"></a></li>
+				  <li><a class="icon my-icon  icon-star"></a></li>
+				  <li><a class="icon my-icon  icon-stop"></a></li>
+				  <li><a class="icon my-icon  icon-trash"></a></li>
+				</ul>
+			</span>
+
+			<span id="" class="menu menu-right pull-right">
+				<ul>
+				  
+				  <li> <span class="toggle active"><span class="toggle-handle"></span></span> </li>
+				  <li> <span class="toggle active"><span class="toggle-handle"></span></span> </li>
+				  <li> <span class="toggle active"><span class="toggle-handle"></span></span> </li>
+				  <li> <span class="toggle active"><span class="toggle-handle"></span></span> </li>
+				  <li> <span class="toggle active"><span class="toggle-handle"></span></span> </li>
+				  <li> <span class="toggle active"><span class="toggle-handle"></span></span> </li>
+				  <li> <span class="toggle active"><span class="toggle-handle"></span></span> </li>
+				  <li> <span class="toggle active"><span class="toggle-handle"></span></span> </li>
+				  <li> <span class="toggle active"><span class="toggle-handle"></span></span> </li>
+				  <li> <span class="toggle active"><span class="toggle-handle"></span></span> </li>
+				  <li> <span class="toggle active"><span class="toggle-handle"></span></span> </li>
+				  <li> <span class="toggle active"><span class="toggle-handle"></span></span> </li>
+					
+				</ul>
+			</span>
+		</div>
 
 
-	<!-- Wrap all non-bar HTML in the .content div (this is actually what scrolls) -->
-    <div id="content" class="content">
-		<form>
-			
-			<div id="header_card"  class="input-group ">
-				<ul id="header_ul" class="table-view">
-					
-				</ul>      
-				
-			</div>
-	  
-			<div class="card">
-				<ul id="questions_ul" class="table-view">
-					
-				</ul>      
+			<!-- Wrap all non-bar HTML in the .content div (this is actually what scrolls) -->
+			<div id="content" class="content">
+					<div id="header_card"  class="input-group ">
+					</div>
+			  
+					<div class="card">
+						<ul id="questions_ul" class="table-view">
+						</ul>      
+					</div>
+
+					<button class="btn btn-positive btn-block">Submit</button>
 			</div>
 
-			<button class="btn btn-positive btn-block">Submit</button>
-		</form>
-	</div>
-
+			
+			
+			<div id="popover" class="popover">
+		  <header class="bar bar-nav">
+			<h1 class="title">Popover title</h1>
+		  </header>
+		  <ul class="table-view">
+			<li class="table-view-cell">Item1</li>
+			<li class="table-view-cell">Item2</li>
+			<li class="table-view-cell">Item3</li>
+			<li class="table-view-cell">Item4</li>
+			<li class="table-view-cell">Item5</li>
+			<li class="table-view-cell">Item6</li>
+			<li class="table-view-cell">Item7</li>
+			<li class="table-view-cell">Item8</li>
+		  </ul>
+		</div>
 	
+	</form>
 	<!--------------------------------------  Scripts ----------------------------------- -->
-	<script type="text/javascript" src="jquery-1.12.3.min.js"></script>
-	<script type="text/javascript" src="checklist.js"></script>
-    <script type="text/javascript" src="./Snap.js-develop/snap.js"></script>
+	<script type="text/javascript" src="./js/jquery-1.12.3.min-modificado.js"></script>
+    <script src="./js/ratchet.js"></script>
+    <script type="text/javascript" src="./js/snap.js"></script>
+	<script src="./js/dropbox.js"></script>			
+	<script type="text/javascript" src="./js/checklist.js"></script>
+	<script type="text/javascript" src="./js/myjson.js"></script>
 
 
         <script type="text/javascript">
