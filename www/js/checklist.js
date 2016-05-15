@@ -1,95 +1,4 @@
 
-// ------------------------------- JSON ---------------------------------
-var cl = {
-	type : 'checklist',
-	title : 'Simes A',
-	subtitle : 'Práticas de Confeção',
-	description : 'Esta checklist é usada nas inspeções às unidades, com o objectivo de verificar e classificar as práticas de confeção utilizadas. Com base nesta checklist é, posteriormente, elaborado um relatório trimestral que serve de suporte à avaliação global de cada unidade.',
-
-	inputs : [
-		{options:'Interna,Externa', text:'Interna / Externa', name:'tipo'},
-		{text:'Número', name:'num'},
-		{text:'Data', name:'date'},
-		{text:'Cód. Unidade', name:'codUn'},
-		{text:'Unidade', name:'unidade'}
-	],
-
-	checklist : [
-		{
-			section : 'Cozinha',
-			questions : [
-			{options:'OK,KO,N/A',value:1,text:'O pessoal lava as mãos.'},
-			{options:'OK,KO,N/A',value:1,text:'O pessoal limpa os pés antes de entrar na cozinha.'},
-			{options:'OK,KO,N/A',value:1,text:'O pessoal puxa o autoclismo quando mija'}
-			]
-		},	
-		{
-			section : 'Comida',
-			questions : [
-				{options:'OK,KO,N/A',value:1,text:'A comida é fixe.'},
-				{options:'OK,KO,N/A',value:1,text:'A comida cheira bem.'},
-				{options:'OK,KO,N/A',value:1,text:'A sopa está azeda'}
-			]
-		},	
-		{
-			section : 'Equipamentos',
-			questions : [
-			{
-				text:'O fogão está limpinho.', 
-				options:'OK,KO,N/A',
-				value:1,
-				answer_snippets:[
-					'Fogão inexistente',
-					'Fogão avariado',
-					'Fogão existente, mas não é usado',
-					'Fogão imundo',
-					'Fogão foi limpo, mas os bicos não foram desengordurados',
-					'Plano de limpeza foi cumprido, mas tem de ser alterado'
-				]
-			},
-			{
-				text:'louça fina', 
-				options:'OK,KO,N/A',
-				value:1,
-				answer_snippets:[
-					'Não se usa loiça desta cá',
-					'Usa-se desta louça, mas não se lava',
-					'No dia em que foi feita  a auditoria, ainda não se tinha lavado loiça',
-					'Toda cagada',
-					'Mal lavada porque a máquina está avariada',
-					'Mal lavada porque a empregada é perguiçosa'
-					]
-			}
-			]
-		},	
-		{
-			section : 'Comida',
-			questions : [
-				{options:'OK,KO,N/A',value:1,text:'A comida é fixe.'},
-				{options:'OK,KO,N/A',value:1,text:'A comida cheira bem.'},
-				{options:'OK,KO,N/A',value:1,text:'A sopa está azeda'}
-			]
-		},	
-		{
-			section : 'Cozinha',
-			questions : [
-			{options:'OK,KO,N/A',value:1,text:'O pessoal lava as mãos.'},
-			{options:'OK,KO,N/A',value:1,text:'O pessoal limpa os pés antes de entrar na cozinha.'},
-			{options:'OK,KO,N/A',value:1,text:'O pessoal puxa o autoclismo quando mija'}
-			]
-		},	
-		{
-			section : 'Comida',
-			questions : [
-				{options:'OK,KO,N/A',value:1,text:'A comida é fixe.'},
-				{options:'OK,KO,N/A',value:1,text:'A comida cheira bem.'},
-				{options:'OK,KO,N/A',value:1,text:'A sopa está azeda'}
-			]
-		},	
-	]
-};
-
-					
 // ------------------------------- Aux ---------------------------------
 	// populates date field with current date
 	Date.prototype.toDateInputValue = (function() {
@@ -230,8 +139,10 @@ function parseAnswerSnippetsIntoHtmlSelect(obj){
 // Init
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-$(document).ready(function(){
-	parseObj(cl);
+
+function init(obj){
+	
+	parseObj(obj);
 	$('.my_btn').each(function(idx, el){ setButtonColor(el); });
 	
 	// disabled due to performance issues on mobile platforms
@@ -249,8 +160,19 @@ $(document).ready(function(){
 		$('select').change(function(ev){window.sessionStorage.setItem(ev.target.id,ev.target.value);})
 		$('textarea').on('input', function(ev){window.sessionStorage.setItem(ev.target.id,ev.target.value);})
 	}
+}
+
+function reset(){
 	
-});
+	snapper.close();
+	if(window.sessionStorage) window.sessionStorage.clear();
+	$('.modal').remove();
+	$('#header_card').html('');
+	$('#questions_ul').html('');
+}
+
+
+$(document).ready(function(){init(simesA);});
 
 
 
@@ -448,6 +370,19 @@ function download2(fileName, data, type) {
          document.body.removeChild(link);
      }
 }	
+
+//
+// Event Listeners
+// 
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+function loadSimesA(){
+	reset();
+	init(simesA);
+}
+function loadSimesB(){
+	reset();
+	init(simesB);
+}
 
 //
 // submit button
